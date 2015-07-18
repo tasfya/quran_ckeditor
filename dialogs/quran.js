@@ -11,7 +11,7 @@ CKEDITOR.dialog.add( 'quranDialog', function ( editor ) {
                     // UI elements of the first tab will be defined here.
                     type: 'text',
                     id: 'quran',
-                    label: 'Fill the number of Ayat preceded with the number of Sura, ie: 4:3-9',
+                    label: 'Fill the number of Ayat preceded by the number of Sura, ie: 4:3-9',
                     validate: CKEDITOR.dialog.validate.notEmpty( "Abbreviation field cannot be empty." )
                   }]
       },
