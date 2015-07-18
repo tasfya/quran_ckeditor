@@ -44,4 +44,9 @@ CKEDITOR.dialog.add( 'quranDialog', function ( editor ) {
 
     }
   };
+  //helpers
+  function getSuraIndex(query){
+    var expression = query.split(':');
+    return expression[0];
+  }
 });
