@@ -17,30 +17,26 @@ CKEDITOR.dialog.add( 'quranDialog', function ( editor ) {
       },
     ],
     onOk: function() {
+
       var dialog = this;
-      var abbr = editor.document.createElement( 'abbr' );
+      var ayat = editor.document.createElement( 'ayat' );
 
-      // abbr.setAttribute( 'title', dialog.getValueOf( 'tab-basic', 'title' ) );
-      // abbr.setText( dialog.getValueOf( 'tab-basic', 'abbr' ) );
-
-      // var id = dialog.getValueOf( 'tab-adv', 'id' );
-      // if ( id )
-      //     abbr.setAttribute( 'id', id );
-
-      // editor.insertElement( abbr );
-      var ayate = dialog.getValueOf( 'tab-basic', 'quran' );
-      $.ajax({
-        url: '/bower_components/ckeditor/plugins/quran/quran.xml',
-      })
-      .done(function(data) {
-        console.log($(data).find( "[index='1']" ));
-      })
-      .fail(function(error) {
-        console.log(error);
-      })
-      .always(function() {
-        console.log("complete");
-      });
+      var ayateQueryInput = dialog.getValueOf( 'tab-basic', 'quran' );
+      ayat.setText(ayateQueryInput);
+      console.log(ayat);
+      editor.insertElement(ayat);
+      // $.ajax({
+      //   url: '/bower_components/ckeditor/plugins/quran/quran.xml',
+      // })
+      // .done(function(data) {
+      //   console.log($(data).find( "[index='1']" ));
+      // })
+      // .fail(function(error) {
+      //   console.log(error);
+      // })
+      // .always(function() {
+      //   console.log("complete");
+      // });
 
     }
   };
@@ -49,4 +45,12 @@ CKEDITOR.dialog.add( 'quranDialog', function ( editor ) {
     var expression = query.split(':');
     return expression[0];
   }
+  function getAyatRange(query){
+    var expression = query.split(':');
+    var ayatRangeExpression = expression[1];
+    for (var i = Things.length - 1; i >= 0; i--) {
+      Things[i]
+    };
+  }
+
 });
