@@ -22,24 +22,32 @@ CKEDITOR.dialog.add( 'quranDialog', function ( editor ) {
       var ayat = editor.document.createElement( 'span' );
 
       var ayateQueryInput = dialog.getValueOf( 'tab-basic', 'quran' );
+
       ayat.setText(ayateQueryInput);
-      console.log(ayat);
+
       editor.insertElement(ayat);
-      // $.ajax({
-      //   url: '/bower_components/ckeditor/plugins/quran/quran.xml',
-      // })
-      // .done(function(data) {
-      //   console.log($(data).find( "[index='1']" ));
-      // })
-      // .fail(function(error) {
-      //   console.log(error);
-      // })
-      // .always(function() {
-      //   console.log("complete");
-      // });
+      var suraIndex = getSuraIndex(ayateQueryInput);
+      var ayatRange = 40;
+      $.ajax({
+        url: '/bower_components/ckeditor/plugins/quran/quran.xml',
+      })
+      .done(function(data){
+        parseQuranData(data, suraIndex, ayatRange);
+      })
+      .fail(function(error) {
+        console.log(error);
+      })
+      .always(function() {
+        console.log("complete");
+      });
 
     }
   };
+  function parseQuranData (quranXml, suraIndex, ayatRange) {
+
+    var aya = getAya(quranXml, suraIndex, 1);
+    console.log(aya);
+  }
   //helpers
   function getSuraIndex(query){
     var expression = query.split(':');
@@ -47,10 +55,22 @@ CKEDITOR.dialog.add( 'quranDialog', function ( editor ) {
   }
   function getAyatRange(query){
     var expression = query.split(':');
-    var ayatRangeExpression = expression[1];
-    for (var i = Things.length - 1; i >= 0; i--) {
-      Things[i]
-    };
+    return expression[1];
+  }
+  function getAyatRangeStart(ayatRange){
+    var expression = query.split('-');
+    return expression[0];
+  }
+
+  function getAyatRangeEnd(ayatRange){
+    var expression = query.split('-');
+    return expression[1];
+  }
+
+  function getAya(quranXml, suraIndex, ayaIndex){
+    return $(quranXml).find("sura[index='" + suraIndex  +"']")
+                      .find("aya[index='" + ayaIndex  +"']")
+                      .attr('text');
   }
 
 });
