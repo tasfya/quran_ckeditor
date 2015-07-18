@@ -19,7 +19,7 @@ CKEDITOR.dialog.add( 'quranDialog', function ( editor ) {
     onOk: function() {
 
       var dialog = this;
-      var ayat = editor.document.createElement( 'ayat' );
+      var ayat = editor.document.createElement( 'span' );
 
       var ayateQueryInput = dialog.getValueOf( 'tab-basic', 'quran' );
       ayat.setText(ayateQueryInput);
