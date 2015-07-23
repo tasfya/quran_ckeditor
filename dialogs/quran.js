@@ -27,7 +27,7 @@ CKEDITOR.dialog.add( 'quranDialog', function ( editor ) {
       var ayatRange = getAyatRange(ayateQueryInput);
 
       $.ajax({
-        url: '/bower_components/ckeditor/plugins/quran/quran.xml',
+        url: CKEDITOR.plugins.getPath('quran')+'quran.xml',
       })
       .done(function(data){
         parseQuranData(data, suraIndex, ayatRange);
@@ -36,7 +36,7 @@ CKEDITOR.dialog.add( 'quranDialog', function ( editor ) {
         console.log(error);
       })
       .always(function() {
-        console.log("complete");
+
       });
 
     }
@@ -47,10 +47,10 @@ CKEDITOR.dialog.add( 'quranDialog', function ( editor ) {
     var ayatRangeStart = getAyatRangeStart(ayatRange);
     var ayatRangeEnd = getAyatRangeEnd(ayatRange);
 
-    ayat ='<span style="text-align:right; direction:rtl;">';
+    ayat ='<span style="display:inline-block; text-align:right; direction:rtl;">';
     for (var i = ayatRangeStart; i <= ayatRangeEnd; i++) {
       aya = getAya(quranXml, suraIndex, i);
-      ayat += renderAya(aya) +' '+ renderAyaNumber(i);
+      ayat += renderAya(aya) +' '+ renderAyaNumber(i) +' ';
     };
     ayat += '</span>';
     var ayatElement = editor.document.createElement( 'span' );
