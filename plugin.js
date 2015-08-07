@@ -9,7 +9,5 @@ CKEDITOR.plugins.add( 'quran', {
       toolbar: 'insert'
     });
     CKEDITOR.dialog.add( 'quranDialog', this.path + 'dialogs/quran.js' );
-
   }
-
 });

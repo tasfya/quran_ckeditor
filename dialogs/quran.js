@@ -14,20 +14,17 @@ CKEDITOR.dialog.add( 'quranDialog', function ( editor ) {
                     label: 'Fill the number of Ayat preceded by the number of Sura, ie: 4:3-9',
                     validate: CKEDITOR.dialog.validate.notEmpty( "Abbreviation field cannot be empty." )
                   }]
-      },
+      }
     ],
     onOk: function() {
 
       var dialog = this;
-
-
       var ayateQueryInput = dialog.getValueOf( 'tab-basic', 'quran' );
-
       var suraIndex = getSuraIndex(ayateQueryInput);
       var ayatRange = getAyatRange(ayateQueryInput);
 
       $.ajax({
-        url: CKEDITOR.plugins.getPath('quran')+'quran.xml',
+        url: CKEDITOR.plugins.getPath('quran')+'quran.xml'
       })
       .done(function(data){
         parseQuranData(data, suraIndex, ayatRange);
@@ -38,12 +35,12 @@ CKEDITOR.dialog.add( 'quranDialog', function ( editor ) {
       .always(function() {
 
       });
-
     }
   };
+
   function parseQuranData (quranXml, suraIndex, ayatRange) {
 
-    var aya, ayat = '';
+    var aya, ayat;
     var ayatRangeStart = getAyatRangeStart(ayatRange);
     var ayatRangeEnd = getAyatRangeEnd(ayatRange);
 
@@ -51,7 +48,7 @@ CKEDITOR.dialog.add( 'quranDialog', function ( editor ) {
     for (var i = ayatRangeStart; i <= ayatRangeEnd; i++) {
       aya = getAya(quranXml, suraIndex, i);
       ayat += renderAya(aya) +' '+ renderAyaNumber(i) +' ';
-    };
+    }
     ayat += '</span>';
     var ayatElement = editor.document.createElement( 'span' );
     ayatElement.addClass('ayat');
@@ -65,12 +62,13 @@ CKEDITOR.dialog.add( 'quranDialog', function ( editor ) {
     var expression = query.split(':');
     return expression[0];
   }
+
   function getAyatRange(query){
     var expression = query.split(':');
     return expression[1];
   }
+
   function getAyatRangeStart(ayatRange){
-    console.log(ayatRange);
     var expression = ayatRange.split('-');
     return expression[0];
   }
