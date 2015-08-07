@@ -1,4 +1,7 @@
 CKEDITOR.dialog.add( 'quranDialog', function ( editor ) {
+
+  var quranDataCache;
+
   return {
     title: 'Quran',
     minWidth: 400,
@@ -23,11 +26,32 @@ CKEDITOR.dialog.add( 'quranDialog', function ( editor ) {
       var suraIndex = getSuraIndex(ayateQueryInput);
       var ayatRange = getAyatRange(ayateQueryInput);
 
-      $.ajax({
-        url: CKEDITOR.plugins.getPath('quran')+'quran.xml'
-      })
+      if (!quranDataCached()) {
+        fetchQuranData(suraIndex, ayatRange, insertQurantSegment);
+      } else {
+        getQuranDataFromCache(suraIndex, ayatRange, insertQurantSegment);
+      }
+    }
+  };
+
+  function quranDataCached() {
+    return !!quranDataCache;
+  }
+
+  function getQuranDataFromCache(suraIndex, ayatRange, callBack) {
+    var segmentToInsert = parseQuranData(quranDataCache, suraIndex, ayatRange);
+    callBack(segmentToInsert);
+  }
+
+  function fetchQuranData(suraIndex, ayatRange, callBack) {
+
+    $.ajax({
+      url: CKEDITOR.plugins.getPath('quran')+'quran.xml'
+    })
       .done(function(data){
-        parseQuranData(data, suraIndex, ayatRange);
+        var segmentToInsert = parseQuranData(data, suraIndex, ayatRange);
+        quranDataCache = data;
+        callBack(segmentToInsert);
       })
       .fail(function(error) {
         console.log(error);
@@ -35,8 +59,14 @@ CKEDITOR.dialog.add( 'quranDialog', function ( editor ) {
       .always(function() {
 
       });
-    }
-  };
+  }
+
+  function insertQurantSegment(segment) {
+    var ayatElement = editor.document.createElement( 'span' );
+    ayatElement.addClass('ayat');
+    ayatElement.setHtml(segment);
+    editor.insertElement(ayatElement);
+  }
 
   function parseQuranData (quranXml, suraIndex, ayatRange) {
 
@@ -50,12 +80,7 @@ CKEDITOR.dialog.add( 'quranDialog', function ( editor ) {
       ayat += renderAya(aya) +' '+ renderAyaNumber(i) +' ';
     }
     ayat += '</span>';
-    var ayatElement = editor.document.createElement( 'span' );
-    ayatElement.addClass('ayat');
-
-    ayatElement.setHtml(ayat);
-    editor.insertElement(ayatElement);
-
+    return ayat;
   }
   //helpers
   function getSuraIndex(query){
