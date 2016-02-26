@@ -115,5 +115,4 @@ CKEDITOR.dialog.add( 'quranDialog', function ( editor ) {
   function renderAyaNumber(number){
     return '<span class="aya-number number-'+ number +'">('+ number +')</span>';
   }
-
 });
