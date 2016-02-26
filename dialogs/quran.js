@@ -20,7 +20,6 @@ CKEDITOR.dialog.add( 'quranDialog', function ( editor ) {
       }
     ],
     onOk: function() {
-
       var dialog = this;
       var ayateQueryInput = dialog.getValueOf( 'tab-basic', 'quran' );
       var suraIndex = getSuraIndex(ayateQueryInput);
